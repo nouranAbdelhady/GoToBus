@@ -26,13 +26,12 @@ public class User{
 	private Boolean is_loggedin;
 	private static final long serialVersionUID = 1L;
 	
-	@OneToMany(mappedBy="notificatios", fetch=FetchType.EAGER)
-	private Set<Notification> notificatios;
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+	private Set<Notification> notificatios = new HashSet<Notification>();
 
 	public User() {
 		super();
 		this.is_loggedin=false;
-		this.notificatios = new HashSet<Notification>();
 	}
 	
 	public User(String username, String password, String full_name, String role, Boolean is_loggedin) {
@@ -92,7 +91,9 @@ public class User{
 	public void setNotificatios(Set<Notification> notificatios) {
 		this.notificatios = notificatios;
 	}
-	public void addNotificatio(Notification notification) {
+	public void addNotification(Notification notification) {
 		this.notificatios.add(notification);
+		System.out.println("New notification added");
+		System.out.println(notification.getMessage());
 	}	
 }

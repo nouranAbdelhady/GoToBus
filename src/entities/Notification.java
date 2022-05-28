@@ -69,9 +69,6 @@ public class Notification{
 	public void setNotification_datetime(Date notification_datetime) {
 		this.notification_datetime = notification_datetime;
 	}
-	public User getUser() {
-		return user;
-	}
 	public void setUser(User user) {
 		this.user = user;
 	}

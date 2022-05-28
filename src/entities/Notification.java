@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,6 +23,10 @@ public class Notification{
 	public int id;
 	
 	private String message;
+	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="date")
@@ -62,6 +68,12 @@ public class Notification{
 	}
 	public void setNotification_datetime(Date notification_datetime) {
 		this.notification_datetime = notification_datetime;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 		

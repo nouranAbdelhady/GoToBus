@@ -1,10 +1,15 @@
 package entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.ejb.Stateless;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Stateless
 @Entity
@@ -20,10 +25,14 @@ public class User{
 	private String role;
 	private Boolean is_loggedin;
 	private static final long serialVersionUID = 1L;
+	
+	@OneToMany(mappedBy="notificatios", fetch=FetchType.EAGER)
+	private Set<Notification> notificatios;
 
 	public User() {
 		super();
 		this.is_loggedin=false;
+		this.notificatios = new HashSet<Notification>();
 	}
 	
 	public User(String username, String password, String full_name, String role, Boolean is_loggedin) {
@@ -77,5 +86,13 @@ public class User{
 	public void login() {
 		this.is_loggedin=true;
 	}
-		
+	public Set<Notification> getNotificatios() {
+		return notificatios;
+	}
+	public void setNotificatios(Set<Notification> notificatios) {
+		this.notificatios = notificatios;
+	}
+	public void addNotificatio(Notification notification) {
+		this.notificatios.add(notification);
+	}	
 }

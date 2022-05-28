@@ -2,8 +2,10 @@ package services;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -27,7 +29,7 @@ public class UserService {
 	
 	@PersistenceContext(unitName="hello")
 	private EntityManager entityManager;
-	
+		
 	@GET
 	@Path("hello")
 	public String hello()	//http://localhost:8080/GoToBusVM/app/NotificationService/hello
@@ -77,6 +79,6 @@ public class UserService {
 		//return "invalid username or password";
 		return Response.status(Response.Status.BAD_REQUEST).build();
 	}
-
+	
 	
 }

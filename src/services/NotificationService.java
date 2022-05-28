@@ -1,9 +1,9 @@
 package services;
 
 import java.util.List;
-
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import entities.Notification;
+import entities.User;
 
 @Stateless
 @Path("/NotificationService")
@@ -66,6 +67,43 @@ public class NotificationService {
 		query.setParameter("id", id);
 		List<Notification> notifications = query.getResultList();
 		return notifications;
+	}
+	
+	
+
+	//dummy function to add notification to user
+	@POST
+	@Path("addNotification/{id}")	//id for user
+	public String addNotificationToUser(Notification notification,@PathParam("id")int id)
+	{
+		try
+		{	
+			TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.id=:id", User.class);
+			query.setParameter("id", id);
+			List<User> users = query.getResultList();
+			//User targetedUser = users.get(0);
+			
+			users.get(0).addNotification(notification);
+			notification.setUser(users.get(0));	//set user for notification before persisting
+			
+			addNotification(notification);
+			//entityManager.persist(notification);
+			
+			return "New notification added for user: "+users.get(0).getUsername();
+		}
+		catch (Exception e)
+		{
+			throw new EJBException(e);
+		}	
+	}
+		
+	@GET
+	@Path("notifications/{user_id}")
+	public List<Notification> getAllUserNotifications(@PathParam("user_id")int user_id)
+	{
+	    TypedQuery<Notification> query = entityManager.createQuery("SELECT ma FROM Notification ma JOIN FETCH ma.user" , Notification.class);
+	    List<Notification> notifications = query.getResultList();
+	    return notifications;
 	}
 	
 }

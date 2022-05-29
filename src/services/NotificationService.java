@@ -3,7 +3,6 @@ package services;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -101,7 +100,9 @@ public class NotificationService {
 	@Path("notifications/{user_id}")
 	public List<Notification> getAllUserNotifications(@PathParam("user_id")int user_id)
 	{
-	    TypedQuery<Notification> query = entityManager.createQuery("SELECT ma FROM Notification ma JOIN FETCH ma.user" , Notification.class);
+	    TypedQuery<Notification> query = entityManager.createQuery("SELECT ma FROM Notification ma JOIN FETCH ma.user WHERE user_id=:user_id" , Notification.class);
+	    query.setParameter("user_id", user_id);
+	    
 	    List<Notification> notifications = query.getResultList();
 	    return notifications;
 	}

@@ -8,12 +8,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ejbs.Notification;
@@ -22,26 +16,19 @@ import ejbs.TripXUser;
 import ejbs.User;
 
 @Stateless
-@Path("/api")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public class UserService {
 
 	@PersistenceContext(unitName = "hello")
 	private EntityManager entityManager;
-
+	
 	@Inject
 	NotificationService notificationService;
 
-	@GET
-	@Path("hello")
-	public String hello() // http://localhost:8080/GoToBusVM/app/NotificationService/hello
+	public String hello()
 	{
 		return "hello user!";
 	}
 
-	@POST
-	@Path("user")
 	public String addUser(User user) {
 		try {
 			entityManager.persist(user);
@@ -51,16 +38,12 @@ public class UserService {
 		}
 	}
 
-	@GET
-	@Path("getUsers")
 	public List<User> getUsers() {
 		TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
 		List<User> users = query.getResultList();
 		return users;
 	}
 
-	@POST
-	@Path("login")
 	public Response login(User user) {
 		String username = user.getUsername();
 		String password = user.getPassword();
@@ -79,8 +62,6 @@ public class UserService {
 		return Response.status(Response.Status.BAD_REQUEST).build();
 	}
 
-	@POST
-	@Path("booktrip")
 	public String bookTrip(TripXUser newTrip) {
 		// System.out.println("You entered trip_id: "+newTrip.getTrip_id());
 		// System.out.println("You entered user_id: "+newTrip.getUser_id());

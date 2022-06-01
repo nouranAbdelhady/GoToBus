@@ -1,60 +1,51 @@
-package services;
+package rests;
 
 import java.util.List;
 
-import javax.ejb.EJBException;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import ejbs.Station;
-import ejbs.User;
+import services.StationServices;
 
 
-@Stateless
-public class StationServices {
+@Path("/api")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class StationRest {
 
-	@PersistenceContext(unitName = "hello")
-	private EntityManager em;
+	@EJB
+	private StationServices stationService;
 
+	@GET
+	@Path("print")
 	public String hello() {
-		return "Hello station! ";
+		return stationService.hello();
 	}
 
+	@POST
+	@Path("{user_id}/station")
 	public String CreateStation(Station station,@PathParam("user_id")int user_id) {
-		User thisUser = em.find(User.class, user_id);
-		
-		if (thisUser==null) {
-			return "Invalid user id provided";
-		}
-				
-		if(thisUser.getRole().compareTo("admin")==0) {	//only create station if this user is an admin
-			try {
-				em.persist(station);
-				return "sucess";
-			} catch (Exception e) {
-				throw new EJBException(e);
-			}
-		}
-		else {
-			return "This user is not an admin; cannot create station";
-		}	
+		return stationService.CreateStation(station, user_id);
 	}
 	
+	@GET
+	@Path("station/{id}")
 	public Station getStation(@PathParam("id") int id) {
-		Station station = new Station();
-		station = em.find(Station.class, id);
-		return station;
+		return stationService.getStation(id);
 	}
 	
+	@GET
+	@Path("getAllStations")
 	public List<Station> getAllStations() {
-		TypedQuery<Station> query = em.createQuery("SELECT s FROM Station s", Station.class);
-		List<Station> stations = query.getResultList();
-		return stations;
+		return stationService.getAllStations();
 	}
-	
 	
 /*
 	@DELETE
@@ -102,5 +93,6 @@ public class StationServices {
 	}
 	 
   */
+	  	
 
 }

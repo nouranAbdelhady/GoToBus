@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ejbs.Station;
+import ejbs.User;
 
 import javax.persistence.*;
 
@@ -37,22 +38,25 @@ public class StationServices {
 	}
 
 	@POST
-	@Path("station")
-	public String CreateStation(Station station) {
-		boolean created = false;
-
-		try {
-			em.persist(station);
-			created = true;
-		} catch (Exception e) {
-			throw new EJBException(e);
-
+	@Path("{user_id}/station")
+	public String CreateStation(Station station,@PathParam("user_id")int user_id) {
+		User thisUser = em.find(User.class, user_id);
+		
+		if (thisUser==null) {
+			return "Invalid user id provided";
 		}
-		if (created == true) {
-			return "sucess";
-		} else {
-			return "failed";
+				
+		if(thisUser.getRole().compareTo("admin")==0) {	//only create station if this user is an admin
+			try {
+				em.persist(station);
+				return "sucess";
+			} catch (Exception e) {
+				throw new EJBException(e);
+			}
 		}
+		else {
+			return "This user is not an admin; cannot create station";
+		}	
 	}
 	
 	@GET

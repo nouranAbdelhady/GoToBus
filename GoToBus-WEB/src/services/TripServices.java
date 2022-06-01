@@ -1,6 +1,9 @@
 package services;
 
 import java.util.List;
+
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -98,6 +101,17 @@ public class TripServices {
 	    //query.setParameter("from_date", toSearch.getFrom_date());
 	    //query.setParameter("to_date", toSearch.getTo_date());
 		    
+	    List<Trip> trips = query.getResultList();
+	    return trips;
+	}
+	
+	@GET
+	@Path("viewtrips/{user_id}")
+	public List<Trip> getAllUserNotifications(@PathParam("user_id")int user_id)
+	{
+	    TypedQuery<Trip> query = em.createQuery("SELECT ma FROM Trip ma JOIN FETCH ma.users WHERE user_id=:user_id" , Trip.class);
+	    query.setParameter("user_id", user_id);
+	    
 	    List<Trip> trips = query.getResultList();
 	    return trips;
 	}

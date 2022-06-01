@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Stateless
@@ -22,12 +23,15 @@ public class User{
 	private String username;
 	private String password;
 	private String full_name;
-	private String role;
+	private String role;		//client/admin
 	private Boolean is_loggedin;
 	private static final long serialVersionUID = 1L;
 	
 	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
 	private Set<Notification> notificatios = new HashSet<Notification>();
+	
+	@ManyToMany(mappedBy="users", fetch = FetchType.EAGER)
+	private Set<Trip> trips = new HashSet<Trip>();
 
 	public User() {
 		super();
@@ -95,9 +99,19 @@ public class User{
 		this.notificatios.add(notification);
 		System.out.println("New notification added");
 		System.out.println(notification.getMessage());
-	}	
+	}
 	
+	public void setTrips(Set<Trip> trips) {
+		this.trips = trips;
+	}
+	public Set<Trip> getTrips() {
+		return trips;
+	}
+
 	public String sayHello() {
 		return "Hello User!";
+	}
+	public void registerToTrip(Trip newTrip) {
+		this.trips.add(newTrip);
 	}
 }

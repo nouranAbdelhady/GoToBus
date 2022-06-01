@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -15,6 +16,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import ejbs.Notification;
+import ejbs.Trip;
+import ejbs.TripXUser;
 import ejbs.User;
 
 
@@ -26,6 +30,9 @@ public class UserService {
 	
 	@PersistenceContext(unitName="hello")
 	private EntityManager entityManager;
+	
+	@Inject
+	NotificationService notificationService;
 		
 	@GET
 	@Path("hello")
@@ -57,7 +64,6 @@ public class UserService {
 		List<User> users = query.getResultList();
 		return users;
 	}
-	
 	@POST
 	@Path("login")
 	public Response login(User user) {
@@ -76,6 +82,43 @@ public class UserService {
 		//return "invalid username or password";
 		return Response.status(Response.Status.BAD_REQUEST).build();
 	}
+	
+	@POST
+	@Path("booktrip")
+	public String bookTrip(TripXUser newTrip) {
+		//System.out.println("You entered trip_id: "+newTrip.getTrip_id());
+		//System.out.println("You entered user_id: "+newTrip.getUser_id());
+		User targetedUser = entityManager.find(User.class, newTrip.getUser_id());
+		Trip targetedTrip = entityManager.find(Trip.class, newTrip.getTrip_id());
+		
+		if(targetedTrip!=null && targetedUser!=null) {	
+			if(targetedTrip.getAvailable_seats()<=0) {		//check available seats
+				//send notification
+				String message = "Sorry, trip "+targetedTrip.getFrom_station_name()+" to "
+						+targetedTrip.getTo_station_name()+" has no available seats";
+				Notification toSend = new Notification(message);
+				notificationService.addNotificationToUser(toSend, newTrip.getUser_id());
+				return "No seats available";
+			}
+			else {
+				//send notification
+				String message = "You have booked trip from "+targetedTrip.getFrom_station_name()+" to "
+						+targetedTrip.getTo_station_name()+" successfully";
+				Notification toSend = new Notification(message);
+				notificationService.addNotificationToUser(toSend, newTrip.getUser_id());
+				
+				targetedUser.registerToTrip(targetedTrip);
+				targetedTrip.registerUser(targetedUser);
+				
+				return "Booked trip successfully";
+			}
+			
+		}
+		else {
+			return "Invalid booking details entered";
+		}
+	}
+	
 	
 	
 }

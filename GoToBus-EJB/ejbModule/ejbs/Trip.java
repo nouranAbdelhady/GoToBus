@@ -2,14 +2,19 @@ package ejbs;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.ejb.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,6 +45,14 @@ public class Trip implements Serializable {
 	
 	//@Temporal(TemporalType.TIMESTAMP)
 	String arrival_time;
+	
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+		name="TripXUser",
+		joinColumns=@JoinColumn(name="trip_id"),
+		inverseJoinColumns=@JoinColumn(name="user_id"))
+	private Set<User> users = new HashSet<User>();
 
 	public int getTripId() {
 		return trip_id;
@@ -88,7 +101,14 @@ public class Trip implements Serializable {
 	}
 	public void setTo_station_name(String to_station_name) {
 		this.to_station_name = to_station_name;
-	}	 
+	}
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+	public void registerUser(User newUser) {
+		this.users.add(newUser);
+	}
+		
 }
 
  

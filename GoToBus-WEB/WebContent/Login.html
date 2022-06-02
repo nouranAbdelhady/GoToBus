@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login Page</title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans"
+	rel="stylesheet">
+
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet"
+	integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="./loginStyle.css">
+
+</head>
+<body>
+
+	<form>
+		<a onclick="history.back()" class="previous round">&#8249;</a>
+	</form>
+
+	<!-- partial:index.partial.html -->
+	<div class="box-form">
+		<div class="left">
+			<div class="overlay">
+				<h1>Welcome Back</h1>
+			</div>
+		</div>
+
+		<div class="right">
+			<h5>Login</h5>
+			<p>
+				Don't have an account? <a href="SignUp.html">Create Your Account</a>
+				it takes less than a minute
+			</p>
+
+			<form form action='login' method="POST">
+				<div class="inputs">
+					<input type="text" placeholder="username" name="username">
+					<br> <input type="password" placeholder="password"
+						name="password"> <br>
+					<br>
+
+					<div class="remember-me--forget-password">
+						<!-- Angular -->
+						<label> <input type="checkbox" name="item" checked /> <span
+							class="text-checkbox">Remember me</span>
+						</label>
+						<p>Forget password?</p>
+					</div>
+
+					<br>
+
+					<input type="submit" value="Login">
+				</div>
+			</form>
+
+		</div>
+
+	</div>
+	<!-- partial -->
+
+</body>
+</html>

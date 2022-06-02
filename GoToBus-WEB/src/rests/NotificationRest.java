@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import ejbs.Notification;
 import services.NotificationService;
 
-@Path("/NotificationService")
+@Path("/notifications")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class NotificationRest {
@@ -37,28 +37,28 @@ public class NotificationRest {
 	}
 
 	@GET
-	@Path("viewNotifications")
+	@Path("all")
 	public List<Notification> getNotifications()
 	{
 		return notificationService.getNotifications();
 	}
 
 	@GET
-	@Path("viewNotifications/{id}")
+	@Path("byId/{id}")
 	public List<Notification> getNotificationById(@PathParam("id")int id)
 	{
 		return notificationService.getNotificationById(id);
 	}	
 
-	@POST
-	@Path("addNotification/{id}")	//id for user
+	@POST	//add notification for a targeted user
+	@Path("{id}")	//id for user
 	public String addNotificationToUser(Notification notification,@PathParam("id")int id)
 	{
 		return notificationService.addNotificationToUser(notification, id);	
 	}
 		
 	@GET
-	@Path("notifications/{user_id}")
+	@Path("{user_id}")
 	public List<Notification> getAllUserNotifications(@PathParam("user_id")int user_id)
 	{
 	    return notificationService.getAllUserNotifications(user_id);

@@ -44,7 +44,7 @@ public class UserService {
 		return users;
 	}
 
-	public Response login(User user) {
+	public Boolean login(User user) {
 		String username = user.getUsername();
 		String password = user.getPassword();
 		TypedQuery<User> query = entityManager
@@ -56,10 +56,12 @@ public class UserService {
 		if (!users.isEmpty()) {
 			users.get(0).login();
 			// return user.getUsername()+" successfully logged in";
-			return Response.status(Response.Status.OK).build();
+			//return Response.status(Response.Status.OK).build();
+			return true;
 		}
 		// return "invalid username or password";
-		return Response.status(Response.Status.BAD_REQUEST).build();
+		//return Response.status(Response.Status.BAD_REQUEST).build();
+		return false;
 	}
 
 	public String bookTrip(TripXUser newTrip) {

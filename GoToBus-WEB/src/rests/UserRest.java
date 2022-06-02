@@ -9,13 +9,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
-import ejbs.TripXUser;
 import ejbs.User;
 import services.UserService;
 
-@Path("/api")
+@Path("/user")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserRest {
@@ -30,28 +28,15 @@ public class UserRest {
 		return userService.hello();
 	}
 
-	@POST
-	@Path("user")
+	@POST		//default path
 	public String addUser(User user) {
 		return userService.addUser(user);
 	}
 
 	@GET
-	@Path("getUsers")
+	@Path("all")
 	public List<User> getUsers() {
 		return userService.getUsers();
-	}
-	
-	@POST
-	@Path("login")
-	public Response login(User user) {
-		return userService.login(user);
-	}
-
-	@POST
-	@Path("booktrip")
-	public String bookTrip(TripXUser newTrip) {
-		return userService.bookTrip(newTrip);
 	}
 	
 }

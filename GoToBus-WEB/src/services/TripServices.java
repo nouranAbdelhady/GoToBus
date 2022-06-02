@@ -79,13 +79,16 @@ public class TripServices {
 		return trips;
 	}
 
-	public List<Trip> searchTrips(SearchTrip toSearch) {
-		TypedQuery<Trip> query = em.createQuery("SELECT t FROM Trip t " + "JOIN FETCH t.from_station "
-				+ "WHERE from_station_id=:from_station " + "AND to_station_id=:to_station", Trip.class);
+	public List<Trip> searchTrips(SearchTrip toSearch) {	
+		TypedQuery<Trip> query = em.createQuery("SELECT t FROM Trip t " //+ "JOIN FETCH t.from_station "
+				+ "WHERE from_station_id=:from_station " + "AND to_station_id=:to_station "
+						//+ "AND departure_time > from_date"
+						//+ "AND arrival_time < to_date"
+						, Trip.class);
 		query.setParameter("from_station", toSearch.getFrom_station());
 		query.setParameter("to_station", toSearch.getTo_station());
-		// query.setParameter("from_date", toSearch.getFrom_date());
-		// query.setParameter("to_date", toSearch.getTo_date());
+		//query.setParameter("from_date", toSearch.getFrom_date());
+		//query.setParameter("to_date", toSearch.getTo_date());
 
 		List<Trip> trips = query.getResultList();
 		return trips;

@@ -1,5 +1,7 @@
 package ejbs;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -44,8 +46,7 @@ public class Trip implements Serializable {
 	String departure_time;
 	
 	//@Temporal(TemporalType.TIMESTAMP)
-	String arrival_time;
-	
+	String arrival_time; 	
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(

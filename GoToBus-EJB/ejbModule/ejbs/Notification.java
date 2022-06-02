@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.ejb.Stateless;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,8 @@ public class Notification{
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@Temporal(TemporalType.DATE)
+	@Basic
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date")
 	private Date notification_datetime;
 	

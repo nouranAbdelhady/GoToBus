@@ -15,7 +15,7 @@ import ejbs.Station;
 import services.StationServices;
 
 
-@Path("/api")
+@Path("/station")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class StationRest {
@@ -24,25 +24,25 @@ public class StationRest {
 	private StationServices stationService;
 
 	@GET
-	@Path("print")
+	@Path("hello")
 	public String hello() {
 		return stationService.hello();
 	}
 
 	@POST
-	@Path("{user_id}/station")
+	@Path("{user_id}")		//check if user is admin so send  user id in parameter
 	public String CreateStation(Station station,@PathParam("user_id")int user_id) {
 		return stationService.CreateStation(station, user_id);
 	}
 	
 	@GET
-	@Path("station/{id}")
+	@Path("{id}")
 	public Station getStation(@PathParam("id") int id) {
 		return stationService.getStation(id);
 	}
 	
 	@GET
-	@Path("getAllStations")
+	@Path("all")
 	public List<Station> getAllStations() {
 		return stationService.getAllStations();
 	}

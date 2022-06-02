@@ -38,12 +38,19 @@ public class User{
 		this.is_loggedin=false;
 	}
 	
-	public User(String username, String password, String full_name, String role, Boolean is_loggedin) {
+	public User(String username, String password, String full_name, String role) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.full_name = full_name;
 		this.role = role;
+		this.is_loggedin = false;
+	}
+
+	public User(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
 		this.is_loggedin = false;
 	}
 

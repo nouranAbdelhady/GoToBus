@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Sign Up</title>
+<title>Register</title>
 
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
@@ -101,19 +101,24 @@ hr {
 <body>
 
 <div class="modal">
+<form form action='register' method="POST">
   <form class="modal-content" action="/action_page.php">
     <div class="container">
       <h1>Sign Up</h1>
       <p>Please fill in this form to create an account.</p>
       <hr>
-      <label for="email"><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" required>
+      <label for="full_name"><b>Full Name</b></label>
+      <input type="text" placeholder="Enter fullname" name="full_name" required>
 
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
+	  <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter username" name="username" required>
+	
+	
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
 
-      <label for="psw-repeat"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+      <label for="role"><b>Role</b></label>
+      <input type="text" placeholder="Role" name="role" required>
       
       <label>
         <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
@@ -126,7 +131,9 @@ hr {
         <button type="submit" class="signupbtn" >Sign Up</button>
       </div>
 
+	<input type="submit" value="Register">
     </div>
+  </form>
   </form>
 </body>
 </html>

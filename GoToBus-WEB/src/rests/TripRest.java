@@ -10,7 +10,7 @@ import ejbs.SearchTrip;
 import ejbs.Trip;
 import services.TripServices;
 
-@Path("/api")
+@Path("/trip")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TripRest {
@@ -18,33 +18,32 @@ public class TripRest {
 	@EJB
 	private TripServices tripService;
 	
-	
 	@GET
-	@Path("helloTrip")
+	@Path("hello")
 	public String helloTrip() {
 		return tripService.helloTrip();
 	}
 
 	@POST
-	@Path("{user_id}/trip")
+	@Path("{user_id}")		//check if user is admin so send  user id in parameter
 	public String CreateTrip(Trip t, @PathParam("user_id") int user_id) {
 		return tripService.CreateTrip(t, user_id);
 	}
 
 	@GET
-	@Path("trips/{name}")
+	@Path("{name}")
 	public Trip getbyname(@PathParam("name") String name) {
 		return tripService.getbyname(name);
 	}
 
 	@GET
-	@Path("trips/{id}")
+	@Path("{id}")
 	public Trip getbyid(@PathParam("id") int id) {
 		return tripService.getbyid(id);
 	}
 
 	@GET
-	@Path("trips")
+	@Path("all")
 	public List<Trip> getalltrips() {
 		return tripService.getalltrips();
 	}

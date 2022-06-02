@@ -42,11 +42,12 @@ public class Trip implements Serializable {
 	private String to_station_name;
 	
 	int available_seats;
-	//@Temporal(TemporalType.TIMESTAMP)
-	String departure_time;
 	
-	//@Temporal(TemporalType.TIMESTAMP)
-	String arrival_time; 	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date departure_time;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date arrival_time; 	
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
@@ -79,20 +80,32 @@ public class Trip implements Serializable {
 	public void setAvailable_seats(int available_seats) {
 		this.available_seats = available_seats;
 	}
-	public String getDeparture_time() {
-		return departure_time;
-	}
-	public void setDeparture_time(String departure_time) {
-		this.departure_time = departure_time;
-	}
-	public String getArrival_time() {
-		return arrival_time;
-	}
-	public void setArrival_time(String arrival_time) {
-		this.arrival_time = arrival_time;
-	}
+//	public String getDeparture_time() {
+//		return departure_time;
+//	}
+//	public void setDeparture_time(String departure_time) {
+//		this.departure_time = departure_time;
+//	}
+//	public String getArrival_time() {
+//		return arrival_time;
+//	}
+//	public void setArrival_time(String arrival_time) {
+//		this.arrival_time = arrival_time;
+//	}
 	public String getFrom_station_name() {
 		return from_station_name;
+	}
+	public Date getDeparture_time() {
+		return departure_time;
+	}
+	public void setDeparture_time(Date departure_time) {
+		this.departure_time = departure_time;
+	}
+	public Date getArrival_time() {
+		return arrival_time;
+	}
+	public void setArrival_time(Date arrival_time) {
+		this.arrival_time = arrival_time;
 	}
 	public void setFrom_station_name(String from_station_name) {
 		this.from_station_name = from_station_name;
@@ -111,5 +124,3 @@ public class Trip implements Serializable {
 	}
 		
 }
-
- 
